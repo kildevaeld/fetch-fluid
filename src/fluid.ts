@@ -160,7 +160,6 @@ export class Request {
         return this.end().then(onFulfilled, onRejected);
     }
 
-
     private _apply_params(url: string): string {
         let params = {};
         let idx = url.indexOf('?');

@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="../dist/fetch.fluid.js"></script>
         <script>
-            fetch.fluid.request.get('http://api.livejazz.dk/concert?access=mobile')
-            .mode('no-cors')
+            fetch.fluid.request.get()
+            .mode('cors')
             .json().then( m => {
                 document.body.textContent = JSON.stringify(m, null, 2);
             }).catch( e => console.error(e.status))
