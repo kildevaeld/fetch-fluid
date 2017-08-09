@@ -707,6 +707,18 @@ var Request = function () {
             return this;
         }
     }, {
+        key: "mode",
+        value: function mode(_mode) {
+            this._request.mode = _mode;
+            return this;
+        }
+    }, {
+        key: "credentials",
+        value: function credentials(creds) {
+            this._request.credentials = creds;
+            return this;
+        }
+    }, {
         key: "json",
         value: function json(data) {
             var throwOnInvalid = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;

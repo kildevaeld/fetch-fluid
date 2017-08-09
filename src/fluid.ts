@@ -24,6 +24,10 @@ export enum HttpMethod {
     DELETE = "delete", HEAD = "head", PATCH = "patch"
 };
 
+export type RequestMode = "cors" | "no-cors" | "same-origin";
+
+export type RequestCredentials = "omit" | "same-origin" | "include";
+
 const jsonReg = /application\/json/i;
 function checkStatus(response: Response): Promise<Response> {
     if (response.status >= 200 && response.status < 300) {
@@ -88,7 +92,6 @@ export class Request {
                 this._headers.append(key, (<any>field)[key]);
             }
         }
-
         return this;
     }
 
@@ -98,6 +101,16 @@ export class Request {
         } else if (arguments.length === 2) {
             this._params[<string>key] = value;
         }
+        return this;
+    }
+
+    mode(mode: RequestMode) {
+        this._request.mode = mode;
+        return this;
+    }
+
+    credentials(creds: RequestCredentials) {
+        this._request.credentials = creds;
         return this;
     }
 

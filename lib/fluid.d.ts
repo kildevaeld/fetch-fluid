@@ -8,6 +8,8 @@ export declare enum HttpMethod {
     HEAD = "head",
     PATCH = "patch",
 }
+export declare type RequestMode = "cors" | "no-cors" | "same-origin";
+export declare type RequestCredentials = "omit" | "same-origin" | "include";
 export declare class HttpError extends Error {
     response: Response;
     status: number;
@@ -34,6 +36,8 @@ export declare class Request {
     params(key: string | {
         [key: string]: any;
     }, value?: any): this;
+    mode(mode: RequestMode): this;
+    credentials(creds: RequestCredentials): this;
     json<T>(data?: any, throwOnInvalid?: boolean): Promise<T>;
     text(data?: any, throwOnInvalid?: boolean): Promise<string>;
     end(data?: any, throwOnInvalid?: boolean): Promise<Response>;
