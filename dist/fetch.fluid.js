@@ -778,7 +778,7 @@ var Request = function () {
                 url = url.substr(0, idx);
             }
             helpers_1.extend(params, this._params);
-            if (!Object.keys(params).length) {
+            if (Object.keys(params).length) {
                 var sep = url.indexOf('?') === -1 ? '?' : '&';
                 url += sep + queryParam(params);
             }

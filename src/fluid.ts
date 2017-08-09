@@ -171,7 +171,7 @@ export class Request {
 
         extend(params, this._params);
 
-        if (!Object.keys(params).length) {
+        if (Object.keys(params).length) {
             var sep = (url.indexOf('?') === -1) ? '?' : '&';
             url += sep + queryParam(params);
         }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../dist/fetch.fluid.js"></script>
+        <script>
+            fetch.fluid.request.get('http://api.livejazz.dk/concert?access=mobile')
+            .mode('no-cors')
+            .json().then( m => {
+                document.body.textContent = JSON.stringify(m, null, 2);
+            }).catch( e => console.error(e.status))
+        </script>
+    </head>
+    <body>
+    
+    </body>
+</html>
