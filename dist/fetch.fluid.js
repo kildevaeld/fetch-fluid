@@ -605,12 +605,12 @@ function queryParam(obj) {
 exports.queryParam = queryParam;
 var HttpMethod;
 (function (HttpMethod) {
-    HttpMethod["GET"] = "get";
-    HttpMethod["PUT"] = "put";
-    HttpMethod["POST"] = "post";
-    HttpMethod["DELETE"] = "delete";
-    HttpMethod["HEAD"] = "head";
-    HttpMethod["PATCH"] = "patch";
+    HttpMethod["GET"] = "GET";
+    HttpMethod["PUT"] = "PUT";
+    HttpMethod["POST"] = "POST";
+    HttpMethod["DELETE"] = "DELETE";
+    HttpMethod["HEAD"] = "HEAD";
+    HttpMethod["PATCH"] = "PATCH";
 })(HttpMethod = exports.HttpMethod || (exports.HttpMethod = {}));
 ;
 var jsonReg = /application\/json/i;

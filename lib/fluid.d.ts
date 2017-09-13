@@ -1,12 +1,12 @@
 export declare function queryStringToParams(qs: string): Object;
 export declare function queryParam(obj: any): string;
 export declare enum HttpMethod {
-    GET = "get",
-    PUT = "put",
-    POST = "post",
-    DELETE = "delete",
-    HEAD = "head",
-    PATCH = "patch",
+    GET = "GET",
+    PUT = "PUT",
+    POST = "POST",
+    DELETE = "DELETE",
+    HEAD = "HEAD",
+    PATCH = "PATCH",
 }
 export declare type RequestMode = "cors" | "no-cors" | "same-origin";
 export declare type RequestCredentials = "omit" | "same-origin" | "include";

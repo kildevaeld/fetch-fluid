@@ -20,8 +20,8 @@ export function queryParam(obj: any): string {
 }
 
 export enum HttpMethod {
-    GET = "get", PUT = "put", POST = "post",
-    DELETE = "delete", HEAD = "head", PATCH = "patch"
+    GET = "GET", PUT = "PUT", POST = "POST",
+    DELETE = "DELETE", HEAD = "HEAD", PATCH = "PATCH"
 };
 
 export type RequestMode = "cors" | "no-cors" | "same-origin";
