@@ -142,7 +142,8 @@ export class Request {
             this._request.body = data;
         }
 
-        url = this._apply_params(url);
+        if (Object.keys(this._params || {}).length)
+            url = this._apply_params(url);
 
         this._request.headers = this._headers
 
