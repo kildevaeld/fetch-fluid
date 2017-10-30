@@ -16,8 +16,7 @@ export declare class HttpError extends Error {
     statusText: string;
     constructor(response: Response);
 }
-export declare class HttpJSONError extends Error {
-    response: Response;
+export declare class HttpJSONError extends HttpError {
     json: any;
     status: number;
     statusText: string;

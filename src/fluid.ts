@@ -29,19 +29,21 @@ export type RequestMode = "cors" | "no-cors" | "same-origin";
 export type RequestCredentials = "omit" | "same-origin" | "include";
 
 const jsonReg = /application\/json/i;
-function checkStatus(response: Response): Promise<Response> {
+
+
+function checkStatus(response: Response): Promise<Response> | Response {
     if (response.status >= 200 && response.status < 300) {
-        return response as any;
+        return response;
     } else {
         if ((response.status >= 400 && response.status < 500) && jsonReg.test(response.headers.get('content-type') || "")) {
             return response.json()
-                .then(json => {
-                    throw new HttpJSONError(response, json);
-                }) as any;
+                .then(json =>
+                    Promise.reject(new HttpJSONError(response, json))
+                );
         }
 
-        var error = new HttpError(response);
-        throw error;
+        return Promise.reject(new HttpError(response));
+
     }
 }
 
@@ -53,22 +55,16 @@ export class HttpError extends Error {
         super();
         // Error breaks prototype chain
         Object.setPrototypeOf(this, HttpError.prototype);
-
         this.status = response.status;
         this.statusText = response.statusText;
     }
 }
 
-export class HttpJSONError extends Error {
+export class HttpJSONError extends HttpError {
     status: number;
     statusText: string;
-    constructor(public response: Response, public json: any) {
-        super();
-        // Error breaks prototype chain
-        Object.setPrototypeOf(this, HttpError.prototype);
-
-        this.status = response.status;
-        this.statusText = response.statusText;
+    constructor(response: Response, public json: any) {
+        super(response);
     }
 }
 

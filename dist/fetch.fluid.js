@@ -620,11 +620,10 @@ function checkStatus(response) {
     } else {
         if (response.status >= 400 && response.status < 500 && jsonReg.test(response.headers.get('content-type') || "")) {
             return response.json().then(function (json) {
-                throw new HttpJSONError(response, json);
+                return Promise.reject(new HttpJSONError(response, json));
             });
         }
-        var error = new HttpError(response);
-        throw error;
+        return Promise.reject(new HttpError(response));
     }
 }
 
@@ -649,25 +648,20 @@ var HttpError = function (_Error) {
 
 exports.HttpError = HttpError;
 
-var HttpJSONError = function (_Error2) {
-    _inherits(HttpJSONError, _Error2);
+var HttpJSONError = function (_HttpError) {
+    _inherits(HttpJSONError, _HttpError);
 
     function HttpJSONError(response, json) {
         _classCallCheck(this, HttpJSONError);
 
-        var _this2 = _possibleConstructorReturn(this, (HttpJSONError.__proto__ || Object.getPrototypeOf(HttpJSONError)).call(this));
+        var _this2 = _possibleConstructorReturn(this, (HttpJSONError.__proto__ || Object.getPrototypeOf(HttpJSONError)).call(this, response));
 
-        _this2.response = response;
         _this2.json = json;
-        // Error breaks prototype chain
-        Object.setPrototypeOf(_this2, HttpError.prototype);
-        _this2.status = response.status;
-        _this2.statusText = response.statusText;
         return _this2;
     }
 
     return HttpJSONError;
-}(Error);
+}(HttpError);
 
 exports.HttpJSONError = HttpJSONError;
 
