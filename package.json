@@ -29,5 +29,6 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1"
-  }
+  },
+  "browser": "./dist/fetch.fluid.js"
 }

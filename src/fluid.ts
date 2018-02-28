@@ -65,6 +65,7 @@ export class HttpJSONError extends HttpError {
     statusText: string;
     constructor(response: Response, public json: any) {
         super(response);
+        Object.setPrototypeOf(this, HttpJSONError.prototype);
     }
 }
 
