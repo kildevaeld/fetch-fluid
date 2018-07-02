@@ -1,5 +1,6 @@
 src/
 test/
+example/
 tsconfig.json
 webpack.config.js
 package-lock.json
