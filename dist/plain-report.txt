@@ -1,3 +1,3 @@
-whatwg-fetch: 12.61 KB (55.7%)
-isomorphic-fetch: 232 B (1.00%)
-<self>: 9.79 KB (43.3%)
+whatwg-fetch: 12.61 KB (55.1%)
+isomorphic-fetch: 232 B (0.991%)
+<self>: 10.03 KB (43.9%)

@@ -1,12 +1,10 @@
-export declare function queryStringToParams(qs: string): Object;
-export declare function queryParam(obj: any): string;
 export declare enum HttpMethod {
     GET = "GET",
     PUT = "PUT",
     POST = "POST",
     DELETE = "DELETE",
     HEAD = "HEAD",
-    PATCH = "PATCH",
+    PATCH = "PATCH"
 }
 export declare type RequestMode = "cors" | "no-cors" | "same-origin";
 export declare type RequestCredentials = "omit" | "same-origin" | "include";
@@ -18,14 +16,11 @@ export declare class HttpError extends Error {
 }
 export declare class HttpJSONError extends HttpError {
     json: any;
-    status: number;
-    statusText: string;
     constructor(response: Response, json: any);
 }
 export declare class Request {
     private _headers;
     private _params;
-    private _method;
     private _url;
     private _request;
     constructor(url: string, method?: HttpMethod);
@@ -41,7 +36,7 @@ export declare class Request {
     text(data?: any, throwOnInvalid?: boolean): Promise<string>;
     end(data?: any, throwOnInvalid?: boolean): Promise<Response>;
     then<U>(onFulfilled?: (value: Response) => U | PromiseLike<U>, onRejected?: (error: any) => U | PromiseLike<U>): PromiseLike<U>;
-    private _apply_params(url);
+    private _apply_params;
 }
 export declare module request {
     function get(url: string): Request;

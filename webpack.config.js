@@ -17,19 +17,15 @@ const babelOptions = {
 };
 
 module.exports = {
-    //entry: './src/index.ts',
     entry: './src/index.ts',
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: ['.ts', '.tsx', '.js'],
-        alias: {
-            debug: process.cwd() + "/node_modules/debug/src/browser.js"
-        }
     },
     output: {
-        filename: 'fetch.fluid.js',
+        filename: 'fetchain.js',
         path: Path.join(process.cwd(), 'dist'),
-        library: ['fetch', 'fluid'],
+        library: ['fetchain'],
         libraryTarget: 'umd'
     },
     module: {

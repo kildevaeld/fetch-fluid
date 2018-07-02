@@ -12,7 +12,6 @@ gulp.task('typescript', () => {
     const out = gulp.src('src/*.ts')
         .pipe(project());
 
-
     return merge([
         out.dts.pipe(gulp.dest('lib')),
         out.js.pipe(gulp.dest('lib'))

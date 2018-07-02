@@ -4,10 +4,10 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["fluid"] = factory();
+		exports["fetchain"] = factory();
 	else
-		root["fetch"] = root["fetch"] || {}, root["fetch"]["fluid"] = factory();
-})(this, function() {
+		root["fetchain"] = factory();
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,11 +70,74 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function isString(a) {
+    return typeof a === 'string';
+}
+exports.isString = isString;
+function isObject(obj) {
+    return obj === Object(obj);
+}
+exports.isObject = isObject;
+var _has = Object.prototype.hasOwnProperty;
+function has(obj, prop) {
+    return _has.call(obj, prop);
+}
+exports.has = has;
+function extend(obj) {
+    if (!isObject(obj)) return obj;
+
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+    }
+
+    for (var i = 0, ii = args.length; i < ii; i++) {
+        var o = args[i];
+        if (!isObject(o)) continue;
+        for (var k in o) {
+            if (has(o, k)) obj[k] = o[k];
+        }
+    }
+    return obj;
+}
+exports.extend = extend;
+function queryStringToParams(qs) {
+    var kvp,
+        k,
+        v,
+        ls,
+        params = {},
+        decode = decodeURIComponent;
+    var kvps = qs.split('&');
+    for (var i = 0, l = kvps.length; i < l; i++) {
+        var param = kvps[i];
+        kvp = param.split('='), k = kvp[0], v = kvp[1];
+        if (v == null) v = true;
+        k = decode(k), v = decode(v), ls = params[k];
+        if (Array.isArray(ls)) ls.push(v);else if (ls) params[k] = [ls, v];else params[k] = v;
+    }
+    return params;
+}
+exports.queryStringToParams = queryStringToParams;
+function queryParam(obj) {
+    return Object.keys(obj).reduce(function (a, k) {
+        a.push(k + '=' + encodeURIComponent(obj[k]));return a;
+    }, []).join('&');
+}
+exports.queryParam = queryParam;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86,22 +149,25 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(1);
-__export(__webpack_require__(3));
+__webpack_require__(2);
+__export(__webpack_require__(4));
+var helpers_1 = __webpack_require__(0);
+exports.queryParam = helpers_1.queryParam;
+exports.queryStringToParams = helpers_1.queryStringToParams;
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
 // Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(2);
+__webpack_require__(3);
 module.exports = self.fetch.bind(self);
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 (function (self) {
@@ -563,7 +629,7 @@ module.exports = self.fetch.bind(self);
 })(typeof self !== 'undefined' ? self : this);
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -578,31 +644,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var helpers_1 = __webpack_require__(4);
-function queryStringToParams(qs) {
-    var kvp,
-        k,
-        v,
-        ls,
-        params = {},
-        decode = decodeURIComponent;
-    var kvps = qs.split('&');
-    for (var i = 0, l = kvps.length; i < l; i++) {
-        var param = kvps[i];
-        kvp = param.split('='), k = kvp[0], v = kvp[1];
-        if (v == null) v = true;
-        k = decode(k), v = decode(v), ls = params[k];
-        if (Array.isArray(ls)) ls.push(v);else if (ls) params[k] = [ls, v];else params[k] = v;
-    }
-    return params;
-}
-exports.queryStringToParams = queryStringToParams;
-function queryParam(obj) {
-    return Object.keys(obj).reduce(function (a, k) {
-        a.push(k + '=' + encodeURIComponent(obj[k]));return a;
-    }, []).join('&');
-}
-exports.queryParam = queryParam;
+var helpers_1 = __webpack_require__(0);
 var HttpMethod;
 (function (HttpMethod) {
     HttpMethod["GET"] = "GET";
@@ -657,6 +699,7 @@ var HttpJSONError = function (_HttpError) {
         var _this2 = _possibleConstructorReturn(this, (HttpJSONError.__proto__ || Object.getPrototypeOf(HttpJSONError)).call(this, response));
 
         _this2.json = json;
+        Object.setPrototypeOf(_this2, HttpJSONError.prototype);
         return _this2;
     }
 
@@ -740,9 +783,9 @@ var Request = function () {
             var throwOnInvalid = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
             var url = this._url;
-            if (data && data === Object(data) && this._method == HttpMethod.GET /* && check for content-type */) {
+            if (data && data === Object(data) && this._request.method == HttpMethod.GET /* && check for content-type */) {
                     var sep = url.indexOf('?') === -1 ? '?' : '&';
-                    var d = sep + queryParam(data);
+                    var d = sep + helpers_1.queryParam(data);
                     url += d;
                     data = null;
                 } else {
@@ -768,13 +811,13 @@ var Request = function () {
             var params = {};
             var idx = url.indexOf('?');
             if (idx > -1) {
-                params = helpers_1.extend(params, queryStringToParams(url.substr(idx + 1)));
+                params = helpers_1.extend(params, helpers_1.queryStringToParams(url.substr(idx + 1)));
                 url = url.substr(0, idx);
             }
             helpers_1.extend(params, this._params);
             if (Object.keys(params).length) {
                 var sep = url.indexOf('?') === -1 ? '?' : '&';
-                url += sep + queryParam(params);
+                url += sep + helpers_1.queryParam(params);
             }
             return url;
         }
@@ -811,45 +854,6 @@ var request;
     }
     request.head = head;
 })(request = exports.request || (exports.request = {}));
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function isString(a) {
-    return typeof a === 'string';
-}
-exports.isString = isString;
-function isObject(obj) {
-    return obj === Object(obj);
-}
-exports.isObject = isObject;
-var _has = Object.prototype.hasOwnProperty;
-function has(obj, prop) {
-    return _has.call(obj, prop);
-}
-exports.has = has;
-function extend(obj) {
-    if (!isObject(obj)) return obj;
-
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-    }
-
-    for (var i = 0, ii = args.length; i < ii; i++) {
-        var o = args[i];
-        if (!isObject(o)) continue;
-        for (var k in o) {
-            if (has(o, k)) obj[k] = o[k];
-        }
-    }
-    return obj;
-}
-exports.extend = extend;
 
 /***/ })
 /******/ ]);

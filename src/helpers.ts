@@ -24,3 +24,22 @@ export function extend<T extends Object, U extends Object>(obj: T, ...args: U[])
     }
     return obj as T & U;
 }
+
+export function queryStringToParams(qs: string): Object {
+    var kvp, k, v, ls, params: { [key: string]: any } = {}, decode = decodeURIComponent;
+    var kvps = qs.split('&');
+    for (var i = 0, l = kvps.length; i < l; i++) {
+        var param = kvps[i];
+        kvp = param.split('='), k = kvp[0], v = kvp[1];
+        if (v == null) v = true;
+        k = decode(k), v = decode(v as string), ls = params[k];
+        if (Array.isArray(ls)) ls.push(v);
+        else if (ls) params[k] = [ls, v];
+        else params[k] = v;
+    }
+    return params;
+}
+
+export function queryParam(obj: any): string {
+    return Object.keys(obj).reduce(function (a, k) { a.push(k + '=' + encodeURIComponent(obj[k])); return a }, [] as string[]).join('&')
+}

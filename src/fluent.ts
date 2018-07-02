@@ -1,23 +1,4 @@
-import { isObject, isString, extend } from './helpers';
-
-export function queryStringToParams(qs: string): Object {
-    var kvp, k, v, ls, params: { [key: string]: any } = {}, decode = decodeURIComponent;
-    var kvps = qs.split('&');
-    for (var i = 0, l = kvps.length; i < l; i++) {
-        var param = kvps[i];
-        kvp = param.split('='), k = kvp[0], v = kvp[1];
-        if (v == null) v = true;
-        k = decode(k), v = decode(v as string), ls = params[k];
-        if (Array.isArray(ls)) ls.push(v);
-        else if (ls) params[k] = [ls, v];
-        else params[k] = v;
-    }
-    return params;
-}
-
-export function queryParam(obj: any): string {
-    return Object.keys(obj).reduce(function (a, k) { a.push(k + '=' + encodeURIComponent(obj[k])); return a }, [] as string[]).join('&')
-}
+import { isObject, isString, extend, queryParam, queryStringToParams } from './helpers';
 
 export enum HttpMethod {
     GET = "GET", PUT = "PUT", POST = "POST",
@@ -41,9 +22,7 @@ function checkStatus(response: Response): Promise<Response> | Response {
                     Promise.reject(new HttpJSONError(response, json))
                 );
         }
-
         return Promise.reject(new HttpError(response));
-
     }
 }
 
@@ -61,8 +40,6 @@ export class HttpError extends Error {
 }
 
 export class HttpJSONError extends HttpError {
-    status: number;
-    statusText: string;
     constructor(response: Response, public json: any) {
         super(response);
         Object.setPrototypeOf(this, HttpJSONError.prototype);
@@ -72,7 +49,6 @@ export class HttpJSONError extends HttpError {
 export class Request {
     private _headers = new Headers();
     private _params: { [key: string]: string } = {};
-    private _method: HttpMethod;
     private _url: string;
     private _request: RequestInit = {};
 
@@ -130,7 +106,7 @@ export class Request {
     end(data?: any, throwOnInvalid: boolean = true): Promise<Response> {
 
         let url = this._url;
-        if (data && data === Object(data) && this._method == HttpMethod.GET /* && check for content-type */) {
+        if (data && data === Object(data) && this._request.method == HttpMethod.GET /* && check for content-type */) {
             var sep = (url.indexOf('?') === -1) ? '?' : '&';
             let d = sep + queryParam(data)
             url += d
@@ -146,6 +122,7 @@ export class Request {
 
         return fetch(url, this._request)
             .then(res => {
+
                 if (throwOnInvalid) {
                     return checkStatus(res);
                 }
