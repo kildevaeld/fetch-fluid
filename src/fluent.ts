@@ -131,7 +131,7 @@ export class Request {
 
     }
 
-    then<U>(onFulfilled?: (value: Response) => U | PromiseLike<U>, onRejected?: (error: any) => U | PromiseLike<U>): PromiseLike<U> {
+    then<U>(onFulfilled?: (value: Response) => U | PromiseLike<U>, onRejected?: (error: any) => U | PromiseLike<U>): Promise<U> {
         return this.end().then(onFulfilled, onRejected);
     }
 
